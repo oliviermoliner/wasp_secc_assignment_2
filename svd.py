@@ -16,22 +16,37 @@
 #
 
 from pyspark import SparkContext
+from pyspark import SparkConf
+from pyspark.sql import SparkSession
+
 # $example on$
 from pyspark.mllib.linalg import Vectors
-from pyspark.mllib.linalg.distributed import RowMatrix
+from pyspark.mllib.linalg.distributed import *
 # $example off$
 
+def read_matrix(path, sc, spark):
+    data = sc.textFile(path)
+
+    def to_matrix_entry(s):
+        s = s.split(" ")
+        return MatrixEntry(int(s[0]), int(s[1]), float(s[2]))
+
+    data = data.filter(lambda x: not x.startswith('%'))
+    print(data.take(5))
+
+    data = data.map(to_matrix_entry)
+    print(data.take(5))
+
+    matrix = CoordinateMatrix(data)
+
+    return matrix.toRowMatrix()
+
+
 if __name__ == "__main__":
-    sc = SparkContext(appName="PythonSVDExample")
+    spark = SparkSession.builder.master("local").config(conf=SparkConf()).getOrCreate()
+    sc = spark.sparkContext
 
-    # $example on$
-    rows = sc.parallelize([
-        Vectors.sparse(5, {1: 1.0, 3: 7.0}),
-        Vectors.dense(2.0, 0.0, 3.0, 4.0, 5.0),
-        Vectors.dense(4.0, 0.0, 0.0, 6.0, 7.0)
-    ])
-
-    mat = RowMatrix(rows)
+    mat = read_matrix("exdata_1.mtx", sc, spark)
 
     # Compute the top 5 singular values and corresponding singular vectors.
     svd = mat.computeSVD(5, computeU=True)
