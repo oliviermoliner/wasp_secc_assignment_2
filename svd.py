@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import sys
 
 from pyspark import SparkContext
 from pyspark import SparkConf
@@ -32,6 +33,8 @@ def read_matrix(path, sc, spark):
         return MatrixEntry(int(s[0]), int(s[1]), float(s[2]))
 
     data = data.filter(lambda x: not x.startswith('%'))
+    data = data.zipWithIndex().filter(lambda tup: tup[1] != 0).map(lambda x:x[0])
+
     print(data.take(5))
 
     data = data.map(to_matrix_entry)
@@ -43,10 +46,10 @@ def read_matrix(path, sc, spark):
 
 
 if __name__ == "__main__":
-    spark = SparkSession.builder.master("local").config(conf=SparkConf()).getOrCreate()
+    spark = SparkSession.builder.master("yarn").config(conf=SparkConf()).getOrCreate()
     sc = spark.sparkContext
 
-    mat = read_matrix("exdata_1.mtx", sc, spark)
+    mat = read_matrix(sys.argv[1], sc, spark)
 
     # Compute the top 5 singular values and corresponding singular vectors.
     svd = mat.computeSVD(5, computeU=True)
