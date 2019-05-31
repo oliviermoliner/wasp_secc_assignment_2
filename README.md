@@ -1,4 +1,4 @@
-## Configuratio
+## Configuration
 
 **Getting Spark to use all cores**
 
@@ -16,14 +16,14 @@ https://sparse.tamu.edu/GHS_psdef/ldoor
 
 ### SVD
 
-larger: https://sparse.tamu.edu/GHS_psdef/ldoor
+larger:
 
 *Compute the top 5 singular values and corresponding singular vectors.*
 
 **Data:**
-- [DNV-Ex 6 : Ship section/detail from production run-1999-01-17](https://sparse.tamu.edu/DNVS/shipsec8)
-  - 114,919 rows x 114,919 cols
-  - 3,303,553 non-zero elements
+- [INDEED Test Matrix]( https://sparse.tamu.edu/GHS_psdef/ldoor)
+  - 952,203 rows x 952,203 cols
+  - 42,493,817 non-zero elements
   - Partitioned into 20 cached partitions
 
 **Cluster:**
