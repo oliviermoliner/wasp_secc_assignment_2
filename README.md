@@ -15,9 +15,6 @@ Set:
 https://sparse.tamu.edu/GHS_psdef/ldoor
 
 ### SVD
-
-larger:
-
 *Compute the top 5 singular values and corresponding singular vectors.*
 
 **Data:**
@@ -36,9 +33,6 @@ larger:
 | 5   |  5  | 1100 | 111 |
 | 5   |  10 | 609 | 111 |
 | 5   |  14 | 524 | 153 |
-
-
-
 
 ### QR
 4 nodes @ 1vcpu
