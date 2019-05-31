@@ -32,6 +32,7 @@ larger: https://sparse.tamu.edu/GHS_psdef/ldoor
 
 | # workers | # cores 	| SVD time (s)	| Data loading time (s) |
 |--- |---	|---	| ----    |
+| 5   |  10 | 609 | 111 |
 | 5   |  14 | 524 | 153 |
 
 
