@@ -12,8 +12,6 @@ Set:
 
 ## Results:
 
-https://sparse.tamu.edu/GHS_psdef/ldoor
-
 ### SVD
 *Compute the top 5 singular values and corresponding singular vectors.*
 
