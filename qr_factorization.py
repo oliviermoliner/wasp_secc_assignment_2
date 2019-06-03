@@ -15,7 +15,9 @@
 # limitations under the License.
 #
 import sys
+import time
 
+import pyspark
 from pyspark import SparkContext
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
@@ -26,6 +28,9 @@ from pyspark.mllib.linalg.distributed import *
 # $example off$
 
 def read_matrix(path, sc, spark):
+    print("Loading data...")
+    t = time.time()
+
     data = sc.textFile(path)
 
     def to_matrix_entry(s):
@@ -34,25 +39,36 @@ def read_matrix(path, sc, spark):
 
     data = data.filter(lambda x: not x.startswith('%'))
     data = data.zipWithIndex().filter(lambda tup: tup[1] != 0).map(lambda x:x[0])
-
-    print(data.take(5))
-
     data = data.map(to_matrix_entry)
-    print(data.take(5))
-
+    data = data.repartition(20).cache()
     matrix = CoordinateMatrix(data)
+    mat = matrix.toRowMatrix()
 
-    return matrix.toRowMatrix()
+    print("Done in: %f s" % (time.time() - t))
+
+    return mat
 
 
 if __name__ == "__main__":
-    spark = SparkSession.builder.master("yarn").config(conf=SparkConf()).getOrCreate()
-    sc = spark.sparkContext
+    conf = (pyspark.SparkConf()
+            .setAppName("QR")
+            .set("spark.hadoop.validateOutputSpecs", "false")
+            .set("spark.executor.memory", "3g")
+            .set("spark.driver.memory", "3g")
+            .set("spark.driver.maxResultSize", "3g"))
+    sc = pyspark.SparkContext(conf=conf)
+    spark = pyspark.sql.SparkSession(sc)
 
     mat = read_matrix(sys.argv[1], sc, spark)
 
-    # Compute the top 5 singular values and corresponding singular vectors.
+    print("Nbr workers", sc._conf.get('spark.executor.instances'))
+
+    print("Compute QR")
+    t = time.time()
+    
     decomp = mat.tallSkinnyQR(False)
+
+    print("QR computed in %f s" % (time.time() - t))
     sc.stop()
     
 
