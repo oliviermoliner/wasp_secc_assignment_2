@@ -34,7 +34,7 @@ Set:
 
 ### QR
 **Data:**
-- [Landmark Test Matrix](https://sparse.tamu.edu/GHS_psdef/landmark)
+- [landmark Test Matrix](https://sparse.tamu.edu/Pereyra/landmark)
   - 71,952 rows x 2,704 cols
   - 1,151,232 non-zero elements
   - Partitioned into 20 cached partitions
