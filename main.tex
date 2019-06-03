@@ -26,7 +26,7 @@ To evaluate the library, we chose two common matrix decompositions: SVD and QR, 
 
 \section{Method}
 
-For the SVD operation, we chose the INDEED Test Matrix (952,203 rows x 952,203 cols, 42,493,817 non-zero elements), and computed the top 5 singular values and corresponding singular vectors. The data was partitioned into 20 cached partitions, and we used 
+For the SVD operation, we chose the INDEED Test Matrix (952,203 rows x 952,203 cols, 42,493,817 non-zero elements), and computed the top 5 singular values and corresponding singular vectors. The data was partitioned into 20 cached partitions. 
 
 
 For the QR decomposition, we used the Landmark Test Matrix, which is tall and thin (71,952 rows x 2,704 cols, 1,151,232 non-zero elements).
@@ -34,11 +34,13 @@ For the QR decomposition, we used the Landmark Test Matrix, which is tall and th
 
 \section{Results}
 
+Figure \ref{svd} shows that as the number of Yarn cores increases the computation time decreases. The results were generated on a cluster of 5 worker nodes that shared the $N$ Yarn cores. 
+
 \begin{figure}[!htbp]
 \begin{center}
-\includegraphics[width=8cm]{SVD Results.pdf}
+\includegraphics[width=8cm]{{SVD_results.pdf}}
 \end{center}
-\caption{The figure show}\label{svd}
+\caption{The figure show the computation time of SVD as a function of Yarn cores.}\label{svd}
 \end{figure}
 
 \section{Conclusion}
