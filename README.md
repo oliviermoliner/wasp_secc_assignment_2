@@ -43,9 +43,8 @@ Set:
 - Master: 4 vcpu, 15 GB ram, 500 GB disk
 - Worker: 4 vcpu, 15 GB ram, 500 GB disk, 1 yarn core per vcpu
 
-landmark
 | # workers | # cores | QR time (s) | Data loading time (s) |
-| --- | ---	| --- | --- |
+| --- | --- | --- | --- |
 |  5  |   2 | 136 |  20 |
 |  5  |   4 |  95 |  26 |
 |  5  |   6 |  97 |  22 |
